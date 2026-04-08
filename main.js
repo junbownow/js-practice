@@ -1,4 +1,4 @@
-// モーダル（div実装）
+//// モーダル（div実装）
 // 必要な要素の取得
 const openModalDiv = document.getElementById('open-modal-div');
 const closeModalDiv = document.getElementById('close-modal-div');
@@ -25,7 +25,7 @@ modalDivBox.addEventListener('click', (e) => {
   e.stopPropagation();
 });
 
-// モーダル（dialog実装）
+//// モーダル（dialog実装）
 // 必要な要素の取得
 const openModalDialog = document.getElementById('open-modal-dialog');
 const closeModalDialog = document.getElementById('close-modal-dialog');
@@ -47,4 +47,23 @@ dialogBox.addEventListener('click', (e) => {
   if (e.target === dialogBox) {
     dialogBox.close();
   }
+});
+
+
+//// タブ切り替え
+// 必要な要素の取得
+const tabBtns = document.querySelectorAll('.tab-btn');
+const tabContents = document.querySelectorAll('.tab-content');
+
+tabBtns.forEach((btn) => {
+  btn.addEventListener('click', () => {
+    // 全部のactiveを外す
+    tabBtns.forEach((b) => b.classList.remove('active'));
+    tabContents.forEach((c) => c.classList.remove('active'));
+
+    // クリックしたボタンに対応するコンテンツをアクティブにする
+    btn.classList.add('active');
+    const targetId = btn.dataset.btn;
+    document.getElementById(targetId).classList.add('active');
+  });
 });
