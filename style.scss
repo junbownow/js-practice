@@ -56,3 +56,28 @@ body {
     margin-bottom: 24px;
   }
 }
+
+// dialog
+dialog {
+  border: none;
+  border-radius: 8px;
+  margin: auto;
+  min-width: 300px;
+
+  .dialog-content {
+    min-width: 300px;
+    padding: 40px;
+  }
+
+  h3 {
+    margin-bottom: 16px;
+  }
+
+  p {
+    margin-bottom: 24px;
+  }
+
+  &::backdrop {
+    background: rgba(0, 0, 0, 0.5);
+  }
+}

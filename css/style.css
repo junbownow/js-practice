@@ -49,4 +49,27 @@ body {
 .modal p {
   margin-bottom: 24px;
 }
+
+dialog {
+  border: none;
+  border-radius: 8px;
+  margin: auto;
+  min-width: 300px;
+}
+dialog .dialog-content {
+  min-width: 300px;
+  padding: 40px;
+}
+dialog h3 {
+  margin-bottom: 16px;
+}
+dialog p {
+  margin-bottom: 24px;
+}
+dialog::-webkit-backdrop {
+  background: rgba(0, 0, 0, 0.5);
+}
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.5);
+}
 /*# sourceMappingURL=style.css.map */
