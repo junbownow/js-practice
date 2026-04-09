@@ -106,3 +106,22 @@ gsapReset.addEventListener('click', () => {
     y: 20
   });
 });
+
+
+//// ハンバーガーメニュー
+// 必要な要素の取得
+const hamburgerBtn = document.getElementById('hamburger-btn');
+const hamburgerMenu = document.getElementById('hamburger-menu');
+
+// 開閉
+hamburgerBtn.addEventListener('click', (e) => {
+  e.stopPropagation();
+  hamburgerBtn.classList.toggle('active');
+  hamburgerMenu.classList.toggle('active');
+});
+
+// メニュー外クリックで閉じる
+document.addEventListener('click', () => {
+  hamburgerBtn.classList.remove('active');
+  hamburgerMenu.classList.remove('active');
+});
