@@ -120,7 +120,20 @@ hamburgerBtn.addEventListener('click', (e) => {
   hamburgerMenu.classList.toggle('active');
 });
 
-// メニュー外クリックで閉じる
+// ハンバーガーメニュー内をクリックしても閉じない
+hamburgerMenu.addEventListener('click', (e) => {
+  e.stopPropagation();
+});
+
+// ハンバーガーメニューないのリンクをクリックしたら閉じる
+hamburgerMenu.querySelectorAll('a').forEach((link) => {
+  link.addEventListener('click', () => {
+    hamburgerBtn.classList.remove('active');
+    hamburgerMenu.classList.remove('active');
+  });
+});
+
+// ハンバーガーメニュー外をクリックで閉じる
 document.addEventListener('click', () => {
   hamburgerBtn.classList.remove('active');
   hamburgerMenu.classList.remove('active');
