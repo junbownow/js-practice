@@ -145,3 +145,17 @@ dialog {
     transform: translateY(0);
   }
 }
+
+// アニメーション（GSAP）
+.gsap-box {
+  width: 200px;
+  height: 200px;
+  background: #333;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  opacity: 0;
+  transform: translateY(20px);
+}

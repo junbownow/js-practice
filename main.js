@@ -25,7 +25,6 @@ modalDivBox.addEventListener('click', (e) => {
   e.stopPropagation();
 });
 
-
 //// モーダル（dialog実装）
 // 必要な要素の取得
 const openModalDialog = document.getElementById('open-modal-dialog');
@@ -49,7 +48,6 @@ dialogBox.addEventListener('click', (e) => {
   }
 });
 
-
 //// タブ切り替え
 // 必要な要素の取得
 const tabBtns = document.querySelectorAll('.tab-btn');
@@ -68,7 +66,6 @@ tabBtns.forEach((btn) => {
   });
 });
 
-
 //// アニメーション（CSS）
 // 必要な要素の取得
 const animationBox = document.getElementById('animation-box');
@@ -83,4 +80,29 @@ animationStart.addEventListener('click', () => {
 // リセット
 animationReset.addEventListener('click', () => {
   animationBox.classList.remove('active');
+});
+
+//// アニメーション（GSAP)
+// 必要な要素の取得
+const gsapBox = document.getElementById('gsap-box');
+const gsapStart = document.getElementById('gsap-start');
+const gsapReset = document.getElementById('gsap-reset');
+
+// 開始
+gsapStart.addEventListener('click', () => {
+  gsap.to(gsapBox, {
+    duration: 0.6,
+    opacity: 1,
+    y: 0,
+    ease: 'power2.out',
+  });
+});
+
+// リセット
+gsapReset.addEventListener('click', () => {
+  gsap.to(gsapBox, {
+    duration: 0.3,
+    opacity: 0,
+    y: 20
+  });
 });
