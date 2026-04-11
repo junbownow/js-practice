@@ -2,27 +2,23 @@
 // 必要な要素の取得
 const openModalDiv = document.getElementById('open-modal-div');
 const closeModalDiv = document.getElementById('close-modal-div');
-const overlayDivBox = document.getElementById('overlay-div');
-const modalDivBox = document.getElementById('modal-div-box');
+const overlayDiv = document.getElementById('overlay-div');
 
-// 開くボタン
+// 開く
 openModalDiv.addEventListener('click', () => {
-  overlayDivBox.style.display = 'flex';
+  overlayDiv.style.display = 'flex';
 });
 
-// 閉じるボタン
+// 閉じる
 closeModalDiv.addEventListener('click', () => {
-  overlayDivBox.style.display = 'none';
+  overlayDiv.style.display = 'none';
 });
 
-// オーバーレイクリックで閉じる
-overlayDivBox.addEventListener('click', () => {
-  overlayDivBox.style.display = 'none';
-});
-
-// モーダル本体クリックでは閉じない
-modalDivBox.addEventListener('click', (e) => {
-  e.stopPropagation();
+// 閉じる（モーダル以外の場所をクリックで閉じる）
+document.addEventListener('click', (e) => {
+  if (e.target === overlayDiv) {
+    overlayDiv.style.display = 'none';
+  }
 });
 
 //// モーダル（dialog実装）
@@ -41,8 +37,8 @@ closeModalDialog.addEventListener('click', () => {
   dialogBox.close();
 });
 
-// 閉じる（::backdropクリックで閉じる）
-dialogBox.addEventListener('click', (e) => {
+// 閉じる（:backdropクリックで閉じる）
+document.addEventListener('click', (e) => {
   if (e.target === dialogBox) {
     dialogBox.close();
   }
@@ -53,13 +49,14 @@ dialogBox.addEventListener('click', (e) => {
 const tabBtns = document.querySelectorAll('.tab-btn');
 const tabContents = document.querySelectorAll('.tab-content');
 
+// 切り替え処理
 tabBtns.forEach((btn) => {
   btn.addEventListener('click', () => {
-    // 全ての要素からactiveを除外
+    // 全ての要素からactive除外
     tabBtns.forEach((b) => b.classList.remove('active'));
     tabContents.forEach((c) => c.classList.remove('active'));
 
-    // クリックしたタブと紐づいているコンテンツにactive付与
+    // クリックしたボタンと、ボタンに紐づくコンテンツにactive付与
     btn.classList.add('active');
     const targetId = btn.dataset.btn;
     document.getElementById(targetId).classList.add('active');
@@ -68,27 +65,27 @@ tabBtns.forEach((btn) => {
 
 //// アニメーション（CSS）
 // 必要な要素の取得
-const animationBox = document.getElementById('animation-box');
 const animationStart = document.getElementById('animation-start');
 const animationReset = document.getElementById('animation-reset');
+const animationBox = document.getElementById('animation-box');
 
-// 開始
+// 開始ボタン
 animationStart.addEventListener('click', () => {
   animationBox.classList.add('active');
 });
 
-// リセット
+// リセットボタン
 animationReset.addEventListener('click', () => {
   animationBox.classList.remove('active');
 });
 
-//// アニメーション（GSAP)
+//// アニメーション（GSAP）
 // 必要な要素の取得
-const gsapBox = document.getElementById('gsap-box');
 const gsapStart = document.getElementById('gsap-start');
 const gsapReset = document.getElementById('gsap-reset');
+const gsapBox = document.getElementById('gsap-box');
 
-// 開始
+// 開始ボタン
 gsapStart.addEventListener('click', () => {
   gsap.to(gsapBox, {
     duration: 0.6,
@@ -98,7 +95,7 @@ gsapStart.addEventListener('click', () => {
   });
 });
 
-// リセット
+// リセットボタン
 gsapReset.addEventListener('click', () => {
   gsap.to(gsapBox, {
     duration: 0.3,
@@ -120,12 +117,13 @@ hamburgerBtn.addEventListener('click', (e) => {
   hamburgerMenu.classList.toggle('active');
 });
 
-// ハンバーガーメニュー内をクリックしても閉じない
-hamburgerMenu.addEventListener('click', (e) => {
-  e.stopPropagation();
+// ハンバーガーメニュー外をクリックで閉じる
+document.addEventListener('click', () => {
+  hamburgerBtn.classList.remove('active');
+  hamburgerMenu.classList.remove('active');
 });
 
-// ハンバーガーメニューないのリンクをクリックしたら閉じる
+// ハンバーガーメニュー内のリンククリックで閉じる
 hamburgerMenu.querySelectorAll('a').forEach((link) => {
   link.addEventListener('click', () => {
     hamburgerBtn.classList.remove('active');
@@ -133,8 +131,46 @@ hamburgerMenu.querySelectorAll('a').forEach((link) => {
   });
 });
 
-// ハンバーガーメニュー外をクリックで閉じる
-document.addEventListener('click', () => {
-  hamburgerBtn.classList.remove('active');
-  hamburgerMenu.classList.remove('active');
+// ハンバーガーメニューのリンク以外をクリックで閉じない
+hamburgerMenu.addEventListener('click', (e) => {
+  e.stopPropagation();
+});
+
+
+//// スクロールアニメーション（IntersectionObserver）
+// 必要な要素の取得
+const ioBoxes = document.querySelectorAll('#io-boxes .scroll-box');
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      const index = Array.from(ioBoxes).indexOf(entry.target);
+      setTimeout(() => {
+        entry.target.classList.add('active');
+      }, index * 500);
+    }
+  });
+}, { threshold: 0.3 });
+
+ioBoxes.forEach((box) => {
+  observer.observe(box);
+});
+
+
+//// スクロールアニメーション（ScrollTrigger）
+// 必要な要素の取得
+const gsapScrollBoxes = document.querySelectorAll('#gsap-boxes .gsap-scroll-box');
+
+gsapScrollBoxes.forEach((box, index) => {
+  gsap.to(box, {
+    opacity: 1,
+    y: 0,
+    duration: 0.6,
+    ease: 'power2.out',
+    delay: index * 0.5,
+    scrollTrigger: {
+      trigger: box,
+      start: 'top 80%',
+    }
+  });
 });
